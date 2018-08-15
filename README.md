@@ -6,7 +6,7 @@ This dashboard shows select system performance measures across a variety of subp
 
 ## Data
 
-The data used to power this app was pulled from the City of Boston's HMIS. R scripts cleaned, reshaped, and deidentified HMIS data into key reporting tables, which were then written to a PostGres backend.
+The data used to power this app was pulled from the City of Boston's HMIS. R scripts cleaned, reshaped, and deidentified HMIS data into key reporting tables, which were then written to a Postgres backend.
 
 ## File Structure
 
@@ -14,8 +14,8 @@ Write a bit about the file structure and where developers can find documentation
 
 ## Built With
 
-- Python Flask
-- Dash
+- [Python Flask](http://flask.pocoo.org/)
+- [Dash](https://dash.plot.ly/)
 - Heroku
 
 ## Usage
