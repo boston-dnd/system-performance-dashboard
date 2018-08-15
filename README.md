@@ -20,7 +20,7 @@ Write a bit about the file structure and where developers can find documentation
 
 ## Usage
 
-Outline how a developer could access and run this piece of software with their own HMIS data
+Outline how a developer could access and run this piece of software with their own HMIS data.
 
 ## License
 
