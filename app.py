@@ -8,7 +8,7 @@ import pandas as pd
 #connect to the database and read in the necessary tables
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-inflow = pd.read_sql_query("select * from inflow")
+inflow = pd.read_sql_query("select * from inflow", con=conn)
 
 app = dash.Dash(__name__)
 server = app.server
