@@ -10,7 +10,7 @@ The data used to power this app was pulled from the City of Boston's HMIS. R scr
 
 ## File Structure
 
-Write a bit about the file structure and where developers can find documentation/methodology for any calculations
+Write a bit about the file structure and where developers can find documentation/methodology for any calculations.
 
 ## Built With
 
