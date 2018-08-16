@@ -17,7 +17,7 @@ app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"
 
 app.layout = html.Div([
     html.H2('System Performance Dashboard - Boston CoC'),
-    html.H4('Race')
+    html.H4('Race'),
     dcc.Dropdown(
         id='dropdown',
         options=[{'label': i, 'value': i} for i in inflow.race.unique()],
