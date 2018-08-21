@@ -14,19 +14,19 @@ The data used to power this app was pulled from the City of Boston's HMIS. R scr
 
 The app operates off the following key reporting tables:
 
-** Census **
+**Census**
 Number of individuals in Emergency Shelter / Street Outreach on a given night, by Gender, Race, Ethnicity, Household Status, and Veteran Status
 
-** Inflow **
+**Inflow**
 Number of individuals experiencing their first-ever stay in an Emergency Shelter / Street Outreach in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
 
-** Length of Stay **
+**Length of Stay**
 Avereage length of stay in Emergency Shelter / Street Outreach in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
 
-** Exits to Permanent Housing **
+**Exits to Permanent Housing**
 Number of individuals exiting to a permanent housing destination in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
 
-** Returns to Shelter **
+**Returns to Shelter**
 Number of individuals returning to Emergency Shelter or Street Outreach from a prior exit to a permanent housing destination in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
 
 ## File Structure
