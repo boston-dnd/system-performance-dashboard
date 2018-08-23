@@ -22,6 +22,13 @@ Number of individuals in Emergency Shelter / Street Outreach on a given night, b
 
 Number of individuals experiencing their first-ever stay in an Emergency Shelter / Street Outreach in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
 
+| year | race | ethnicity | gender | veteranstatus | householdtype | count |
+|------|------|-----------|--------|---------------|---------------|-------|
+|      |      |           |        |               |               |       |
+|      |      |           |        |               |               |       |
+|      |      |           |        |               |               |       |
+
+
 **Length of Stay**
 
 Avereage length of stay in Emergency Shelter / Street Outreach in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
