@@ -35,9 +35,9 @@ The tables above all have the following structure, with 'count' corresponding to
 *Length of Stay*  
 Average length of stay in Emergency Shelter / Street Outreach in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status. This table has a slightly different structure so that we can take a weighted average length of stay depending which demographic filters are selected:
 
-| year | race | ethnicity | gender | veteranstatus | householdtype | count | avglos |
-|------|------|-----------|--------|---------------|---------------|-------|--------|
-|      |      |           |        |               |               |       |        |
+| year | race | ethnicity | gender | veteranstatus | householdtype | numclients | avglos |
+|------|------|-----------|--------|---------------|---------------|------------|--------|
+|      |      |           |        |               |               |            |        |
 
 ## File Structure
 
