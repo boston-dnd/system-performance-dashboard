@@ -22,17 +22,6 @@ Number of individuals in Emergency Shelter / Street Outreach on a given night, b
 
 Number of individuals experiencing their first-ever stay in an Emergency Shelter / Street Outreach in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
 
-| year | race | ethnicity | gender | veteranstatus | householdtype | count |
-|------|------|-----------|--------|---------------|---------------|-------|
-|      |      |           |        |               |               |       |
-|      |      |           |        |               |               |       |
-|      |      |           |        |               |               |       |
-
-
-**Length of Stay**
-
-Avereage length of stay in Emergency Shelter / Street Outreach in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
-
 **Exits to Permanent Housing**
 
 Number of individuals exiting to a permanent housing destination in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
@@ -40,6 +29,22 @@ Number of individuals exiting to a permanent housing destination in a given year
 **Returns to Shelter**
 
 Number of individuals returning to Emergency Shelter or Street Outreach from a prior exit to a permanent housing destination in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
+
+The table above all have the following structure, with 'count' corresponding to the appropriate metric in each table:
+
+| year | race | ethnicity | gender | veteranstatus | householdtype | count |
+|------|------|-----------|--------|---------------|---------------|-------|
+|      |      |           |        |               |               |       |
+
+**Length of Stay**
+
+Avereage length of stay in Emergency Shelter / Street Outreach in a given year, by Gender, Race, Ethnicity, Household Status, and Veteran Status
+
+This table has a slightly different structure so that we can take a weighted average length of stay depending which demographic filters are selected
+
+| year | race | ethnicity | gender | veteranstatus | householdtype | count | avglos |
+|------|------|-----------|--------|---------------|---------------|-------|--------|
+|      |      |           |        |               |               |       |        |
 
 ## File Structure
 
