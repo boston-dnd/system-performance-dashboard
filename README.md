@@ -1,4 +1,4 @@
-### Boston CoC System Exploration App
+# Boston CoC System Exploration App
 
 [Open app](https://system-performance-app.herokuapp.com/)
 
