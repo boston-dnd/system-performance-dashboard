@@ -10,34 +10,33 @@ import plotly.graph_objs as go
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 inflow = pd.read_sql_query("select * from inflow", con=conn)
+los = pd.read_sql_query("select * from los", con=conn)
+phexits = pd.read_sql_query("select * from phexits", con=conn)
 
 def filter_data(dataframe, selected_race, selected_ethnicity, selected_gender, selected_veteran, selected_household):
+	'''function that filters data based on inputs'''
+
 	filtered_df = dataframe
-	#filter race
 	if selected_race == 'all':
 		filtered_df = filtered_df
 	else:
 		filtered_df = filtered_df[filtered_df.race == selected_race]
 
-	#filter ethnicity
 	if selected_ethnicity == 'all':
 		filtered_df = filtered_df
 	else:
 		filtered_df = filtered_df[filtered_df.ethnicity == selected_ethnicity]
 
-	#filter gender
 	if selected_gender == 'all':
 		filtered_df = filtered_df
 	else:
 		filtered_df = filtered_df[filtered_df.gender == selected_gender]
 
-	#filter veteran
 	if selected_veteran == 'all':
 		filtered_df = filtered_df
 	else:
 		filtered_df = filtered_df[filtered_df.veteranstatus == selected_veteran]
 
-	#select household
 	if selected_household == 'all':
 		filtered_df = filtered_df
 	else:
@@ -105,7 +104,9 @@ app.layout = html.Div([
 					value='all')], className="four columns"
 				)], className = "row")
 		]),
-	dcc.Graph(id='inflow-graph')
+	dcc.Graph(id='inflow-graph'),
+	dcc.Graph(id='los-graph'),
+	dcc.Graph(id='ph-graph')
 ])
 
 '''callback for inflow'''
@@ -119,14 +120,76 @@ app.layout = html.Div([
 def update_figure(selected_race, selected_ethnicity, selected_gender, selected_veteran, selected_household):
 	#call function to filter data
 	filtered_df = filter_data(inflow, selected_race, selected_ethnicity, selected_gender, selected_veteran, selected_household)
+
 	#agreggate table into reporting format
 	yearly_inflow = pd.DataFrame(filtered_df.groupby('year')['count'].sum())
+
 	#dynamically render figure
 	return {
 	'data': [go.Bar(x = yearly_inflow.index,
 		y= yearly_inflow['count'])],
 	'layout': go.Layout(
 		title='Yearly Inflow',
+		xaxis={'title': 'Year'},
+		yaxis={'title': 'Number of clients'},
+		hovermode='closest'
+		)
+	}
+
+'''callback for Length of Stay'''
+@app.callback(dash.dependencies.Output('los-graph', 'figure'),
+			  [dash.dependencies.Input('race-dropdown', 'value'),
+			  dash.dependencies.Input('ethnicity-dropdown', 'value'),
+			  dash.dependencies.Input('gender-dropdown', 'value'),
+			  dash.dependencies.Input('veteran-dropdown', 'value'),
+			  dash.dependencies.Input('household-dropdown', 'value')
+			  ])
+def update_figure(selected_race, selected_ethnicity, selected_gender, selected_veteran, selected_household):
+	#call function to filter data
+	filtered_df = filter_data(los, selected_race, selected_ethnicity, selected_gender, selected_veteran, selected_household)
+
+	#agreggate table into reporting format
+	filtered_df['los'] = filtered_df.groupby('year').apply(lambda x: x.numclients*x.avglos)
+
+	print(filtered_df)
+
+	yearly_los = filtered_df
+	print(yearly_los)
+
+	#dynamically render figure
+	return {
+	'data': [go.Bar(x = yearly_los['year'],
+		y= yearly_los['los'])],
+	'layout': go.Layout(
+		title='Length of Stay by year',
+		xaxis={'title': 'Year'},
+		yaxis={'title': 'Number of clients'},
+		hovermode='closest'
+		)
+	}
+
+
+'''callback for PH exits'''
+@app.callback(dash.dependencies.Output('ph-graph', 'figure'),
+			  [dash.dependencies.Input('race-dropdown', 'value'),
+			  dash.dependencies.Input('ethnicity-dropdown', 'value'),
+			  dash.dependencies.Input('gender-dropdown', 'value'),
+			  dash.dependencies.Input('veteran-dropdown', 'value'),
+			  dash.dependencies.Input('household-dropdown', 'value')
+			  ])
+def update_figure(selected_race, selected_ethnicity, selected_gender, selected_veteran, selected_household):
+	#call function to filter data
+	filtered_df = filter_data(phexits, selected_race, selected_ethnicity, selected_gender, selected_veteran, selected_household)
+
+	#agreggate table into reporting format
+	yearly_ph = pd.DataFrame(filtered_df.groupby('year')['count'].sum())
+
+	#dynamically render figure
+	return {
+	'data': [go.Bar(x = yearly_ph.index,
+		y= yearly_ph['count'])],
+	'layout': go.Layout(
+		title='Yearly Exits to Permanent Housing',
 		xaxis={'title': 'Year'},
 		yaxis={'title': 'Number of clients'},
 		hovermode='closest'
