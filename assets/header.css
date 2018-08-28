@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,400i,700i|Open+Sans:300,500,700');
+
 .app-header {
     height: 60px;
     line-height: 60px;
@@ -5,7 +7,7 @@
 }
 
 .app-header .app-header--title {
-	font-family: 'Raleway';
+	font-family: 'Nunito';
     font-size: 36px;
     padding-left: 5px;
 }

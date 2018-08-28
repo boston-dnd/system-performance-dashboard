@@ -5,6 +5,7 @@ import dash_html_components as html
 import psycopg2
 import pandas as pd
 import plotly.graph_objs as go
+import numpy as np
 
 #connect to the database and read in the necessary tables
 DATABASE_URL = os.environ['DATABASE_URL']
@@ -50,8 +51,8 @@ server = app.server
 app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
 
 app.layout = html.Div([
-	html.Div(className="app-header", children=[html.Div('System Exploration App - Boston CoC', className="app-header--title")]),
-	html.Br(),
+	html.Div(className="app-header", children=[html.Div('System Exploration App - Boston CoC', className="app-header--title")], style={"margin-left": "10px", "margin-right": "10px"}),
+	html.P("""The goal of this web app is to allow and empower the Supportive Housing Divison to explore and ask questions of the HMIS data. The app provides answers to broad system performance questions like "is the average length of stay decreasing?" but also allows users to dig deeper and uncover insights from the data, like "White veterans have shorter lengths of stay than veterans of color." The baseline measures displayed in the app are an adaption/expansion of HUD's System Performance Measures. The Supportive Housing Division collaborated to workshop and tailor these measures to be more relevant to the goals of our CoC.""", style={"margin-left": "10px", "margin-right": "10px"}),
 	html.Div([
 		html.Div([
 			html.Div([
@@ -102,11 +103,50 @@ app.layout = html.Div([
 					{'label': 'Trans Male', 'value': '3.0'},
 					{'label': 'Gender Non-Conforming', 'value': '4.0'}],
 					value='all')], className="four columns"
-				)], className = "row")
+				)], className = "row", style={'margin-left':'50px', 'margin-right':'100px'})
 		]),
-	dcc.Graph(id='inflow-graph'),
-	dcc.Graph(id='los-graph'),
-	dcc.Graph(id='ph-graph')
+	html.Br(),
+	html.Br(),
+	html.H4("Inflow / First time Homeless", style={'font-weight': 'bold', 'margin-left':'50px'}),
+	html.Hr(style={'font-weight': 'bold', 'margin-left':'50px', 'color':'#d2d2d2'}),
+	html.Div([
+		html.Div([
+			html.H6("What am I looking at?"),
+			html.P("In a given year, how many clients experienced their first-ever overnight stay in a Boston CoC shelter or on the street?")
+			], className="three columns"),
+		html.Div([
+			html.H6("Context:"),
+			html.P("This metric gives a sense of how many new clients per year the CoC is serving, which can provide context for the overall census")
+			], className="three columns"),
+		], className="row", style={'margin-left':'50px', 'margin-right':'100px'}),
+
+	dcc.Graph(id='inflow-graph', style={'margin-left':'80px', 'margin-right':'80px'}),
+	html.H4("Length of Stay", style={'font-weight': 'bold', 'margin-left':'50px'}),
+	html.Hr(style={'font-weight': 'bold', 'margin-left':'50px', 'color':'#d2d2d2'}),
+	html.Div([
+		html.Div([
+			html.H6("What am I looking at?"),
+			html.P("In a given year, how long on average have clients who appeared in a Boston CoC shelter / on the street that year spent cumulatively in a Boston CoC shelter or on the street?")
+			], className="three columns"),
+		html.Div([
+			html.H6("Context:"),
+			html.P("This metric gives a sense of how long individuals in the current CoC population have been experiencing homelessness in the CoC. This metric can shed light on whether the CoC's efforts to house its longest-term stayers have been successful.")
+			], className="three columns"),
+		], className="row", style={'margin-left':'50px', 'margin-right':'100px'}),
+	dcc.Graph(id='los-graph', style={'margin-left':'80px', 'margin-right':'80px'}),
+	html.H4("Exits to Permanent Housing", style={'font-weight': 'bold', 'margin-left':'50px'}),
+	html.Hr(style={'font-weight': 'bold', 'margin-left':'50px', 'color':'#d2d2d2'}),
+	html.Div([
+		html.Div([
+			html.H6("What am I looking at?"),
+			html.P("In a given year, how many clients exited to a permanent housing destination?")
+			], className="three columns"),
+		html.Div([
+			html.H6("Context:"),
+			html.P("This metric gives a sense of how many clients per year the CoC is helping exit to a permanent housing destination, which can provide insight on whether the CoC is achieving its goal of increasing exits to permanent housing")
+			], className="three columns"),
+		], className="row", style={'margin-left':'50px', 'margin-right':'100px'}),
+	dcc.Graph(id='ph-graph', style={'margin-left':'80px', 'margin-right':'80px'})
 ])
 
 '''callback for inflow'''
@@ -126,13 +166,24 @@ def update_figure(selected_race, selected_ethnicity, selected_gender, selected_v
 
 	#dynamically render figure
 	return {
-	'data': [go.Bar(x = yearly_inflow.index,
-		y= yearly_inflow['count'])],
+	'data': [go.Scatter(x = yearly_inflow.index,
+		y= yearly_inflow['count'],
+		mode="lines+markers",
+		marker=dict(
+			size=15,
+			color='rgba(78,145,221, .9)',
+			line=dict(
+				color='rgba(0, 0, 0, .9)',
+				width = 2,
+            )
+            )
+		)
+	],
 	'layout': go.Layout(
-		title='Yearly Inflow',
 		xaxis={'title': 'Year'},
 		yaxis={'title': 'Number of clients'},
-		hovermode='closest'
+		hovermode='closest',
+		margin=dict(t=0)
 		)
 	}
 
@@ -148,23 +199,32 @@ def update_figure(selected_race, selected_ethnicity, selected_gender, selected_v
 	#call function to filter data
 	filtered_df = filter_data(los, selected_race, selected_ethnicity, selected_gender, selected_veteran, selected_household)
 
-	#agreggate table into reporting format
-	filtered_df['los'] = filtered_df.groupby('year').apply(lambda x: x.numclients*x.avglos)
+	grouped_df = filtered_df.groupby('year')
 
-	print(filtered_df)
+	def compute_los(grp):
+		grp['weighted_los'] = np.average(grp['avglos'], weights = grp['numclients'])
+		return grp
 
-	yearly_los = filtered_df
+	grouped_df = grouped_df.apply(compute_los)
+
+	yearly_los = grouped_df
 	print(yearly_los)
 
 	#dynamically render figure
 	return {
 	'data': [go.Bar(x = yearly_los['year'],
-		y= yearly_los['los'])],
+		y= yearly_los['weighted_los'],
+		marker=dict(
+                color='rgba(78,145,221, .9)',
+                line=dict(
+                    width=1.5),
+            )
+		)],
 	'layout': go.Layout(
-		title='Length of Stay by year',
 		xaxis={'title': 'Year'},
-		yaxis={'title': 'Number of clients'},
-		hovermode='closest'
+		yaxis={'title': 'Average Length of Stay'},
+		hovermode='closest',
+		margin=dict(t=0)
 		)
 	}
 
@@ -187,12 +247,17 @@ def update_figure(selected_race, selected_ethnicity, selected_gender, selected_v
 	#dynamically render figure
 	return {
 	'data': [go.Bar(x = yearly_ph.index,
-		y= yearly_ph['count'])],
+		y= yearly_ph['count'],
+		marker=dict(
+                color='rgba(78,145,221, .9)',
+                line=dict(
+                    width=1.5),
+            ))],
 	'layout': go.Layout(
-		title='Yearly Exits to Permanent Housing',
 		xaxis={'title': 'Year'},
 		yaxis={'title': 'Number of clients'},
-		hovermode='closest'
+		hovermode='closest',
+		margin=dict(t=0)
 		)
 	}
 
