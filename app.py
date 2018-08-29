@@ -2,6 +2,7 @@ import os
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_auth
 import psycopg2
 import pandas as pd
 import plotly.graph_objs as go
@@ -9,6 +10,8 @@ import numpy as np
 
 #connect to the database and read in the necessary tables
 DATABASE_URL = os.environ['DATABASE_URL']
+USERNAME = os.environ['USERNAME']
+PASSWORD = os.environ['PASSWORD']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 inflow = pd.read_sql_query("select * from inflow", con=conn)
 los = pd.read_sql_query("select * from los", con=conn)
@@ -44,9 +47,19 @@ def filter_data(dataframe, selected_race, selected_ethnicity, selected_gender, s
 		filtered_df = filtered_df[filtered_df.householdtype == selected_household]
 	return filtered_df
 
+VALID_USERNAME_PASSWORD_PAIRS = [
+    [USERNAME, PASSWORD]
+]
 
-app = dash.Dash(__name__)
-server = app.server
+app = dash.Dash('auth')
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
+
+
+#app = dash.Dash(__name__)
+#server = app.server
 
 app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
 
