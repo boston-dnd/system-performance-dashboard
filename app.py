@@ -21,30 +21,40 @@ def filter_data(dataframe, selected_race, selected_ethnicity, selected_gender, s
 	'''function that filters data based on inputs'''
 
 	filtered_df = dataframe
+
 	if selected_race == 'all':
 		filtered_df = filtered_df
+
 	else:
 		filtered_df = filtered_df[filtered_df.race == selected_race]
 
+
 	if selected_ethnicity == 'all':
 		filtered_df = filtered_df
+
 	else:
 		filtered_df = filtered_df[filtered_df.ethnicity == selected_ethnicity]
 
+
 	if selected_gender == 'all':
 		filtered_df = filtered_df
+
 	else:
 		filtered_df = filtered_df[filtered_df.gender == selected_gender]
 
+
 	if selected_veteran == 'all':
 		filtered_df = filtered_df
+
 	else:
 		filtered_df = filtered_df[filtered_df.veteranstatus == selected_veteran]
+
 
 	if selected_household == 'all':
 		filtered_df = filtered_df
 	else:
 		filtered_df = filtered_df[filtered_df.householdtype == selected_household]
+
 	return filtered_df
 
 VALID_USERNAME_PASSWORD_PAIRS = [
