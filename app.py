@@ -204,7 +204,8 @@ def update_figure(selected_race, selected_ethnicity, selected_gender, selected_v
 	],
 	'layout': go.Layout(
 		xaxis={'title': 'Year'},
-		yaxis={'title': 'Number of clients'},
+		yaxis=dict(title='Number of clients',
+		range= [0,max(yearly_inflow['count']) + 0.2*(max(yearly_inflow['count']))]),
 		hovermode='closest',
 		margin=dict(t=0)
 		)
