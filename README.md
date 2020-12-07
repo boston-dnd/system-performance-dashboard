@@ -43,9 +43,11 @@ Average length of stay in Emergency Shelter / Street Outreach in a given year, b
 
 The app is secured to protect government information. Screenshots of the app with fictitious data can be found below for those who want to see a sample of the app's appearance:
 
-![Inflow]()
+![Filters](https://github.com/boston-dnd/system-performance-dashboard/blob/master/screenshots/filters.png)
 
-![Length of Stay]()
+![Inflow](https://github.com/boston-dnd/system-performance-dashboard/blob/master/screenshots/inflow.png)
+
+![Length of Stay](https://github.com/boston-dnd/system-performance-dashboard/blob/master/screenshots/lengthofstay.png)
 
 ## Built With
 
