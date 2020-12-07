@@ -1,6 +1,6 @@
 # Boston CoC System Exploration App
 
-[Open app](https://system-performance-app.herokuapp.com/)
+[Open app](https://system-performance-app.herokuapp.com/) (Credentials required)
 
 ## Purpose / Audience
 
@@ -41,7 +41,7 @@ Average length of stay in Emergency Shelter / Street Outreach in a given year, b
 
 ## Screenshots
 
-The app is secured to protect government information. Screenshots of the app with fictitious data can be found below for those who want to see a sample of the app's appearance:
+The app is secured to protect government information. Screenshots of the app with fictitious data can be found below to see a sample of the app's appearance:
 
 ![Filters](https://github.com/boston-dnd/system-performance-dashboard/blob/master/screenshots/filters.png)
 
