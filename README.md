@@ -55,10 +55,3 @@ The app is secured to protect government information. Screenshots of the app wit
 - [Plotly Dash](https://dash.plot.ly/)
 - Hosted on Heroku
 
-## Usage
-
-Outline how a developer could access and run this piece of software with their own HMIS data.
-
-## License
-
-This software is licensed under the MIT license ([LICENSE file](https://github.com/boston-dnd/system-performance-dashboard/blob/master/LICENSE)).
