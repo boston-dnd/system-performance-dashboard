@@ -39,9 +39,13 @@ Average length of stay in Emergency Shelter / Street Outreach in a given year, b
 |------|------|-----------|--------|---------------|---------------|------------|--------|
 |      |      |           |        |               |               |            |        |
 
-## File Structure
+## Screenshots
 
-Write a bit about the file structure and where developers can find documentation/methodology for any calculations.
+The app is secured to protect government information. Screenshots of the app with fictitious data can be found below for those who want to see a sample of the app's appearance:
+
+![Inflow]()
+
+![Length of Stay]()
 
 ## Built With
 
